@@ -5,20 +5,33 @@
 #define NUM_CAFFEINE_PKEY 1
 // Default
 #define NUM_CAFFEINE_DEFAULT 0
-
+// time of last caffeine intake  
+    
 static Window *s_window;
 static GFont s_res_bitham_30_black;
 static GFont s_res_gothic_28_bold;
 static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
-    
-static int num_caffeine = NUM_CAFFEINE_DEFAULT;
-    
+
+static int num_caffeine;
+
+/*
+static int caffeine(void){
+// Half of the initial value after 3h
+   int time = localtime(time_t);
+   return num_caffeine * (1/2)^(ZEIT/3);
+}
+*/
 void update_screen(void){
+  //get actual count
+    
+  //Update caffeine count text
   static char caffeine_count_text[40];
   snprintf(caffeine_count_text, sizeof(caffeine_count_text), "%umg", num_caffeine);
   text_layer_set_text(s_caffeine_layer, caffeine_count_text);
+  
+  //update time until 1mg
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -29,14 +42,20 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Increment caffeine count
   num_caffeine++;
-  vibes_short_pulse();
+  //Save time
+  
+  //vibes_short_pulse();
   update_screen();
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Decrement caffeine count
+  if (num_caffeine <= 0) {
+    // can't be less than 0
+    return;
+  }
   num_caffeine--;
-  vibes_long_pulse();
+  //vibes_long_pulse(); -- rawrr.
   update_screen();
 }
 
@@ -46,8 +65,13 @@ static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
+void init (void){
+    num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
+}
+
 void end(void){
     //Things to save before exiting app
+    persist_write_int(NUM_CAFFEINE_PKEY, num_caffeine);
 }
 
 static void initialise_ui(void) {
