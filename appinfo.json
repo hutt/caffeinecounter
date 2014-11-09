@@ -1,0 +1,61 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        "configurable"
+    ],
+    "companyName": "Jannis Hutt",
+    "longName": "Caffeine Counter",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/caffeine_white_nt.png",
+                "name": "caffeine_white_nt",
+                "type": "png"
+            },
+            {
+                "file": "images/caffeine_black_nt.png",
+                "menuIcon": true,
+                "name": "caffeine_black_nt",
+                "type": "png"
+            },
+            {
+                "file": "images/settings.png",
+                "name": "settings",
+                "type": "png"
+            },
+            {
+                "file": "images/plus.png",
+                "name": "plus",
+                "type": "png"
+            },
+            {
+                "file": "images/minus.png",
+                "name": "minus",
+                "type": "png"
+            },
+            {
+                "file": "images/settings_transparent.png",
+                "name": "settings_transparent",
+                "type": "png-trans"
+            },
+            {
+                "file": "images/plus_transparent.png",
+                "name": "plus_transparent",
+                "type": "png-trans"
+            },
+            {
+                "file": "images/minus_transparent.png",
+                "name": "minus_transparent",
+                "type": "png-trans"
+            }
+        ]
+    },
+    "shortName": "Caffeine",
+    "uuid": "741ace1f-4f23-4982-b72f-f89e56a240ee",
+    "versionCode": 1,
+    "versionLabel": "0.1",
+    "watchapp": {
+        "watchface": false
+    }
+}
