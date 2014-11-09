@@ -34,14 +34,23 @@ void update_screen(void){
   //update time until 1mg
 }
 
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  //SELECT: Do nothing (v0.1)
-  //ACTION
+static void select_click_handler_long(ClickRecognizerRef recognizer, void *context) {
+  num_caffeine=0;
+  update_screen();
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Increment caffeine count
-  num_caffeine++;
+  num_caffeine=num_caffeine+10;
+  //Save time
+  
+  //vibes_short_pulse();
+  update_screen();
+}
+
+static void up_click_handler_iterate(ClickRecognizerRef recognizer, void *context) {
+  //Increment caffeine count
+  num_caffeine=num_caffeine+100;
   //Save time
   
   //vibes_short_pulse();
@@ -54,15 +63,28 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
     // can't be less than 0
     return;
   }
-  num_caffeine--;
+  num_caffeine=num_caffeine-10;
+  //vibes_long_pulse(); -- rawrr.
+  update_screen();
+}
+
+static void down_click_handler_decrement(ClickRecognizerRef recognizer, void *context) {
+  //Decrement caffeine count
+  if (num_caffeine <= 0) {
+    // can't be less than 0
+    return;
+  }
+  num_caffeine=num_caffeine-100;
   //vibes_long_pulse(); -- rawrr.
   update_screen();
 }
 
 static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+  window_long_click_subscribe(BUTTON_ID_SELECT, 800, select_click_handler_long, NULL);
+  window_long_click_subscribe(BUTTON_ID_UP, 300, NULL, up_click_handler_iterate);
+  window_long_click_subscribe(BUTTON_ID_DOWN, 300, NULL, down_click_handler_decrement);
 }
 
 void init (void){
