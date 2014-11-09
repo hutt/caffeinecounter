@@ -1,37 +1,49 @@
 #include <pebble.h>
 #include "s_counter.h"
     
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  //SELECT: Do nothing (v0.1)
-  //ACTION
-}
+// Persistent Keys
+#define NUM_CAFFEINE_PKEY 1
+// Default
+#define NUM_CAFFEINE_DEFAULT 0
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  //UP
-  //ACTION
-}
-
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  //DOWN
-  //ACTION
-}
-
-static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
-}
-    
-// BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
 static Window *s_window;
 static GFont s_res_bitham_30_black;
 static GFont s_res_gothic_28_bold;
 static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
+    
+static int num_caffeine = NUM_CAFFEINE_DEFAULT;
+    
+void update_screen(void){
+  static char caffeine_count_text[40];
+  snprintf(caffeine_count_text, sizeof(caffeine_count_text), "%umg", num_caffeine);
+  text_layer_set_text(s_caffeine_layer, caffeine_count_text);
+}
 
-void init(void) {
-    //Things to fetch before starting app_loop
+static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+  //SELECT: Do nothing (v0.1)
+  //ACTION
+}
+
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  //Increment caffeine count
+  num_caffeine++;
+  vibes_short_pulse();
+  update_screen();
+}
+
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  //Decrement caffeine count
+  num_caffeine--;
+  vibes_long_pulse();
+  update_screen();
+}
+
+static void click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
 void end(void){
@@ -70,6 +82,9 @@ static void initialise_ui(void) {
   text_layer_set_text(s_info_layer, "00:00 until < 5mg");
   text_layer_set_text_alignment(s_info_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_info_layer);
+    
+ //Get latest counts
+  update_screen();
 }
 
 static void destroy_ui(void) {
