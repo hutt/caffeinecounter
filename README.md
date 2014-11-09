@@ -1,4 +1,4 @@
-caffeinecounter
+Caffeine Counter for Pebble
 ===============
 
 Counts your caffeine consumption during the day and calculates the amount of caffeine in your blood.
