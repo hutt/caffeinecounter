@@ -10,12 +10,12 @@
         "media": [
             {
                 "file": "images/caffeine_white_nt.png",
+                "menuIcon": true,
                 "name": "caffeine_white_nt",
                 "type": "png"
             },
             {
                 "file": "images/caffeine_black_nt.png",
-                "menuIcon": true,
                 "name": "caffeine_black_nt",
                 "type": "png"
             },
