@@ -23,6 +23,10 @@ static int caffeine(void){
    return num_caffeine * (1/2)^(ZEIT/3);
 }
 */
+void get_elapsed_time(void){
+    //elapsed time 
+}
+
 void update_screen(void){
   //get actual count
     
@@ -32,6 +36,11 @@ void update_screen(void){
   text_layer_set_text(s_caffeine_layer, caffeine_count_text);
   
   //update time until 1mg
+  if(num_caffeine>=9000){
+  static char caffeine_calculator_text[40];
+  snprintf(caffeine_calculator_text, sizeof(caffeine_calculator_text), "OMG it's over 9000!");
+  text_layer_set_text(s_info_layer, caffeine_calculator_text);
+  }
 }
 
 static void select_click_handler_long(ClickRecognizerRef recognizer, void *context) {
