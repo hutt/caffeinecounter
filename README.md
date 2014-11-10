@@ -9,5 +9,6 @@ Press and hold SELECT 800ms to reset.
 The app will do the rest.
 
 ## Screenshots
-![How a warning looks like. Okay, you'd probably be dead with 9g in your blood.](screenshots/watch_screenshot_warning)
+![How a warning looks like. Okay, you'd probably be dead with 9g in your blood.](screenshots/watch_screenshot_warning.jpg)
+
 ![App Icon in the Menu](screenshots/menu.png) ![How the app is going to look like](screenshots/s_counter.png)
