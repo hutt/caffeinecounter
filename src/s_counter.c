@@ -6,6 +6,9 @@
 // Default
 #define NUM_CAFFEINE_DEFAULT 0
 // time of last caffeine intake  
+#define DATE_LAST_INTAKE_PKEY 1
+// Default
+#define DATE_LAST_INTAKE_DEFAULT 0
     
 static Window *s_window;
 static GFont s_res_bitham_30_black;
@@ -15,6 +18,7 @@ static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
 
 static int num_caffeine;
+static time_t last_intake;
 
 /*
 static int caffeine(void){
@@ -24,7 +28,7 @@ static int caffeine(void){
 }
 */
 void get_elapsed_time(void){
-    //elapsed time 
+    //elapsed time
 }
 
 void update_screen(void){
@@ -43,12 +47,12 @@ void update_screen(void){
   }
 }
 
-static void select_click_handler_long(ClickRecognizerRef recognizer, void *context) {
+static void long_select_click_handler(ClickRecognizerRef recognizer, void *context) {
   num_caffeine=0;
   update_screen();
 }
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void single_up_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Increment caffeine count
   num_caffeine=num_caffeine+10;
   //Save time
@@ -57,18 +61,19 @@ static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   update_screen();
 }
 
-static void up_click_handler_iterate(ClickRecognizerRef recognizer, void *context) {
-  //Increment caffeine count
-  num_caffeine=num_caffeine+100;
+static void long_up_click_handler(ClickRecognizerRef recognizer, void *context) {
+    num_caffeine = num_caffeine+100;
+    update_screen();
+
   //Save time
   
   //vibes_short_pulse();
-  update_screen();
+  
 }
 
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void single_down_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Decrement caffeine count
-  if (num_caffeine <= 0) {
+  if (num_caffeine < 10) {
     // can't be less than 0
     return;
   }
@@ -77,27 +82,26 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   update_screen();
 }
 
-static void down_click_handler_decrement(ClickRecognizerRef recognizer, void *context) {
-  //Decrement caffeine count
-  if (num_caffeine <= 0) {
-    // can't be less than 0
-    return;
-  }
-  num_caffeine=num_caffeine-100;
-  //vibes_long_pulse(); -- rawrr.
-  update_screen();
+static void long_down_click_handler(ClickRecognizerRef recognizer, void *context) {
+    if(num_caffeine < 100){
+        return;
+    }else{
+        num_caffeine = num_caffeine-100;
+        update_screen();
+    }
 }
 
 static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
-  window_long_click_subscribe(BUTTON_ID_SELECT, 800, select_click_handler_long, NULL);
-  window_long_click_subscribe(BUTTON_ID_UP, 300, NULL, up_click_handler_iterate);
-  window_long_click_subscribe(BUTTON_ID_DOWN, 300, NULL, down_click_handler_decrement);
+  window_long_click_subscribe(BUTTON_ID_SELECT, 800, long_select_click_handler, NULL);
+  window_single_click_subscribe(BUTTON_ID_UP, single_up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, single_down_click_handler);
+  window_long_click_subscribe(BUTTON_ID_UP, 300, long_up_click_handler, NULL);
+  window_long_click_subscribe(BUTTON_ID_DOWN, 300, long_down_click_handler, NULL);
 }
 
 void init (void){
     num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
+    last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : DATE_LAST_INTAKE_DEFAULT;
 }
 
 void end(void){
