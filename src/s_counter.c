@@ -100,6 +100,7 @@ static void click_config_provider(void *context) {
 }
 
 void init (void){
+    //last_intake = localtime(/**WAT.**/);
     num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
     last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : DATE_LAST_INTAKE_DEFAULT;
 }
