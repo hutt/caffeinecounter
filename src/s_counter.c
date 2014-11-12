@@ -7,8 +7,6 @@
 #define NUM_CAFFEINE_DEFAULT 0
 // time of last caffeine intake  
 #define DATE_LAST_INTAKE_PKEY 1
-// Default
-#define DATE_LAST_INTAKE_DEFAULT 0
     
 static Window *s_window;
 static GFont s_res_bitham_30_black;
@@ -41,9 +39,9 @@ void update_screen(void){
   
   //update time until 1mg
   if(num_caffeine>=9000){
-  static char caffeine_calculator_text[40];
-  snprintf(caffeine_calculator_text, sizeof(caffeine_calculator_text), "OMG it's over 9000!");
-  text_layer_set_text(s_info_layer, caffeine_calculator_text);
+    static char caffeine_calculator_text[40];
+    snprintf(caffeine_calculator_text, sizeof(caffeine_calculator_text), "OMG it's over 9000!");
+    text_layer_set_text(s_info_layer, caffeine_calculator_text);
   }
 }
 
@@ -91,6 +89,29 @@ static void long_down_click_handler(ClickRecognizerRef recognizer, void *context
     }
 }
 
+static void update_time() {
+  // Get a tm structure
+    
+    time_t temp = time(NULL) - last_intake;
+    struct tm *tick_time = temp;
+
+  // Create a long-lived buffer
+    static char buffer[] = "00:00";
+
+  // Write the current hours and minutes into the buffer
+    if(clock_is_24h_style() == true) {
+        // Use 24 hour format
+        strftime(buffer, sizeof("00:00"), "%H:%M", tick_time);
+    }
+
+  // Display this time on the TextLayer
+  text_layer_set_text(s_info_layer, buffer);
+}
+
+static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+    update_time();
+}
+
 static void click_config_provider(void *context) {
   window_long_click_subscribe(BUTTON_ID_SELECT, 800, long_select_click_handler, NULL);
   window_single_click_subscribe(BUTTON_ID_UP, single_up_click_handler);
@@ -100,9 +121,9 @@ static void click_config_provider(void *context) {
 }
 
 void init (void){
-    //last_intake = localtime(/**WAT.**/);
+    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
     num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
-    last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : DATE_LAST_INTAKE_DEFAULT;
+    last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : time(NULL);
 }
 
 void end(void){
