@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include <math.h>
 #include "s_counter.h"
     
 // Persistent Keys
@@ -22,10 +23,10 @@ long get_elapsed_time(void){
     return ((time(NULL)-last_intake)/(60*60));
 }
 
-static long double caffeine(void){
+long double caffeine(void){
 // Half of the initial value after 3h
    long time = get_elapsed_time();
-   return (&num_caffeine*((0.5)^(&time/3)));
+   return (num_caffeine*(pow(0.5,(time/3.0))));
 }
 
 void update_screen(void){
@@ -44,22 +45,28 @@ void update_screen(void){
   }
 }
 
+static void update_intake(void){
+    last_intake = time(NULL);
+}
+
 static void long_select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  num_caffeine=0;
-  update_screen();
+    num_caffeine=0;
+    update_intake();
+    update_screen();
 }
 
 static void single_up_click_handler(ClickRecognizerRef recognizer, void *context) {
   //Increment caffeine count
   num_caffeine=num_caffeine+10;
   //Save time
-  
-  //vibes_short_pulse();
+  update_intake();
+  //Update screen
   update_screen();
 }
 
 static void long_up_click_handler(ClickRecognizerRef recognizer, void *context) {
     num_caffeine = num_caffeine+100;
+    update_intake();
     update_screen();
     
   //vibes_short_pulse();
@@ -72,9 +79,10 @@ static void single_down_click_handler(ClickRecognizerRef recognizer, void *conte
     // can't be less than 0
     return;
   }
-  num_caffeine=num_caffeine-10;
-  //vibes_long_pulse(); -- rawrr.
-  update_screen();
+    num_caffeine=num_caffeine-10;
+    //vibes_long_pulse(); -- rawrr.
+    update_intake();
+    update_screen();
 }
 
 static void long_down_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -82,12 +90,13 @@ static void long_down_click_handler(ClickRecognizerRef recognizer, void *context
         return;
     }else{
         num_caffeine = num_caffeine-100;
+        update_intake();
         update_screen();
     }
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-    time(NULL);
+    num_caffeine = caffeine();
     update_screen();
 }
 
