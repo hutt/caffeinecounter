@@ -7,7 +7,7 @@
 #define NUM_CAFFEINE_DEFAULT 0
 // time of last caffeine intake  
 #define DATE_LAST_INTAKE_PKEY 1
-    
+
 static Window *s_window;
 static GFont s_res_bitham_30_black;
 static GFont s_res_gothic_28_bold;
@@ -18,15 +18,14 @@ static TextLayer *s_info_layer;
 static int num_caffeine;
 static time_t last_intake;
 
-/*
-static int caffeine(void){
-// Half of the initial value after 3h
-   int time = localtime(time_t);
-   return num_caffeine * (1/2)^(ZEIT/3);
+long get_elapsed_time(void){
+    return ((time(NULL)-last_intake)/(60*60));
 }
-*/
-void get_elapsed_time(void){
-    //elapsed time
+
+static long double caffeine(void){
+// Half of the initial value after 3h
+   long time = get_elapsed_time();
+   return (&num_caffeine*((0.5)^(&time/3)));
 }
 
 void update_screen(void){
@@ -62,9 +61,7 @@ static void single_up_click_handler(ClickRecognizerRef recognizer, void *context
 static void long_up_click_handler(ClickRecognizerRef recognizer, void *context) {
     num_caffeine = num_caffeine+100;
     update_screen();
-
-  //Save time
-  
+    
   //vibes_short_pulse();
   
 }
@@ -89,27 +86,9 @@ static void long_down_click_handler(ClickRecognizerRef recognizer, void *context
     }
 }
 
-static void update_time() {
-  // Get a tm structure
-    
-    time_t temp = time(NULL) - last_intake;
-    struct tm *tick_time = temp;
-
-  // Create a long-lived buffer
-    static char buffer[] = "00:00";
-
-  // Write the current hours and minutes into the buffer
-    if(clock_is_24h_style() == true) {
-        // Use 24 hour format
-        strftime(buffer, sizeof("00:00"), "%H:%M", tick_time);
-    }
-
-  // Display this time on the TextLayer
-  text_layer_set_text(s_info_layer, buffer);
-}
-
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-    update_time();
+    time(NULL);
+    update_screen();
 }
 
 static void click_config_provider(void *context) {
@@ -121,6 +100,7 @@ static void click_config_provider(void *context) {
 }
 
 void init (void){
+    //Update every minute
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
     num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
     last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : time(NULL);
@@ -129,6 +109,8 @@ void init (void){
 void end(void){
     //Things to save before exiting app
     persist_write_int(NUM_CAFFEINE_PKEY, num_caffeine);
+    persist_write_int(DATE_LAST_INTAKE_PKEY, last_intake);
+    tick_timer_service_unsubscribe();
 }
 
 static void initialise_ui(void) {
