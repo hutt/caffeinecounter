@@ -1,7 +1,7 @@
 #include <pebble.h>
-#include <math.h>
+#include <math-sll.h>
 #include "s_counter.h"
-    
+
 // Persistent Keys
 #define NUM_CAFFEINE_PKEY 1
 // Default
@@ -26,7 +26,7 @@ long get_elapsed_time(void){
 long double caffeine(void){
 // Half of the initial value after 3h
    long time = get_elapsed_time();
-   return (num_caffeine*(pow(0.5,(time/3.0))));
+   return (num_caffeine*(sllpow(0.5,(time/3.0))));
 }
 
 void update_screen(void){
