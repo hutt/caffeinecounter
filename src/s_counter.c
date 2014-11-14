@@ -1,5 +1,5 @@
 #include <pebble.h>
-#include <math-sll.h>
+#include <math_lite.h>
 #include "s_counter.h"
 
 // Persistent Keys
@@ -16,7 +16,7 @@ static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
 
-static int num_caffeine;
+static unsigned int num_caffeine;
 static time_t last_intake;
 
 long get_elapsed_time(void){
@@ -26,7 +26,8 @@ long get_elapsed_time(void){
 long double caffeine(void){
 // Half of the initial value after 3h
    long time = get_elapsed_time();
-   return (num_caffeine*(sllpow(0.5,(time/3.0))));
+   //return (num_caffeine*(sllpow(0.5,(time/3.0))));
+    return 10000.17186574891659;
 }
 
 void update_screen(void){
@@ -37,12 +38,6 @@ void update_screen(void){
   snprintf(caffeine_count_text, sizeof(caffeine_count_text), "%umg", num_caffeine);
   text_layer_set_text(s_caffeine_layer, caffeine_count_text);
   
-  //update time until 1mg
-  if(num_caffeine>=9000){
-    static char caffeine_calculator_text[40];
-    snprintf(caffeine_calculator_text, sizeof(caffeine_calculator_text), "OMG it's over 9000!");
-    text_layer_set_text(s_info_layer, caffeine_calculator_text);
-  }
 }
 
 static void update_intake(void){
