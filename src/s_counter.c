@@ -27,7 +27,7 @@ long double caffeine(void){
 // Half of the initial value after 3h
    long time = get_elapsed_time();
    //return (num_caffeine*(sllpow(0.5,(time/3.0))));
-    return 10000.17186574891659;
+    return 10;
 }
 
 void update_screen(void){
@@ -73,11 +73,12 @@ static void single_down_click_handler(ClickRecognizerRef recognizer, void *conte
   if (num_caffeine < 10) {
     // can't be less than 0
     return;
-  }
+  }else{
     num_caffeine=num_caffeine-10;
     //vibes_long_pulse(); -- rawrr.
     update_intake();
-    update_screen();
+    update_screen();   
+  }
 }
 
 static void long_down_click_handler(ClickRecognizerRef recognizer, void *context) {
