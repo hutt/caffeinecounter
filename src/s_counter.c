@@ -16,7 +16,7 @@ static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
 
-static unsigned int num_caffeine;
+static int num_caffeine;
 static time_t last_intake;
 
 long get_elapsed_time(void){
@@ -26,7 +26,7 @@ long get_elapsed_time(void){
 long double caffeine(void){
 // Half of the initial value after 3h
    long time = get_elapsed_time();
-   //return (num_caffeine*(sllpow(0.5,(time/3.0))));
+   //return (num_caffeine*(pow_lite(0.5,(time/3.0))));
     return 10;
 }
 
@@ -92,7 +92,7 @@ static void long_down_click_handler(ClickRecognizerRef recognizer, void *context
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-    num_caffeine = caffeine();
+    //num_caffeine = caffeine();
     update_screen();
 }
 
