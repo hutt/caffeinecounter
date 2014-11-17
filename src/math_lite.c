@@ -1,7 +1,7 @@
 #include <pebble.h>
 #include "math_lite.h"
 
-long double pow_lite(long double base, long double exp){
-    return 10;
+long double pow_lite(float base, float exp){
+    //return;
 }
 
