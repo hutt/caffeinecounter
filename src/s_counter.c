@@ -14,10 +14,11 @@ static GFont s_res_gothic_28_bold;
 static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
+
 static int halflife=300;
-static float caff_init=0;
 static int caff_time0=1397412233;
-static int num_caffeine;
+static int num_caffeine=0;
+
 static time_t last_intake;
 
 long get_elapsed_time(void){
@@ -42,13 +43,13 @@ float caffeine() {
         }
     }
     else {
-        caff_init=0;
+        num_caffeine=0;
         caff_time0=timer_s;
     }
 
     answer = answer + 1.0;
 
-    answer = caff_init * answer;
+    answer = num_caffeine * answer;
     if (answer<0) answer = 0;
     return(answer);
 }
