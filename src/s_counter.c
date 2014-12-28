@@ -1,5 +1,4 @@
 #include <pebble.h>
-#include <math_lite.h>
 #include "s_counter.h"
 
 // Persistent Keys
@@ -15,7 +14,9 @@ static GFont s_res_gothic_28_bold;
 static TextLayer *s_heading;
 static TextLayer *s_caffeine_layer;
 static TextLayer *s_info_layer;
-
+static int halflife=300;
+static float caff_init=0;
+static int caff_time0=1397412233;
 static int num_caffeine;
 static time_t last_intake;
 
@@ -23,11 +24,33 @@ long get_elapsed_time(void){
     return ((time(NULL)-last_intake)/(60*60));
 }
 
-long double caffeine(void){
-// Half of the initial value after 3h
-   long time = get_elapsed_time();
-   //return (num_caffeine*(pow_lite(0.5,(time/3.0))));
-    return 10;
+float caffeine() {
+    time_t now1 = time(NULL);
+    int timer_s=now1;
+    float x=-(timer_s-caff_time0)/(halflife*86.56170245);
+    float term=x;
+    float answer=x;		
+    if (timer_s-caff_time0<172800) {
+        int i=2;
+        float error=0.001;				
+        while (term > error || term < -error)
+        {
+            int work = i;
+            term =  (term * x)/work;
+            answer = answer + (term);
+            i++;
+        }
+    }
+    else {
+        caff_init=0;
+        caff_time0=timer_s;
+    }
+
+    answer = answer + 1.0;
+
+    answer = caff_init * answer;
+    if (answer<0) answer = 0;
+    return(answer);
 }
 
 void update_screen(void){
@@ -92,7 +115,7 @@ static void long_down_click_handler(ClickRecognizerRef recognizer, void *context
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-    //num_caffeine = caffeine();
+    num_caffeine = caffeine();
     update_screen();
 }
 
