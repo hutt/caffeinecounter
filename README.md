@@ -22,3 +22,6 @@ A: No, it's impossible to calculate it 100% correct, but this Watchapp is there 
 ![How a warning looks like. Okay, you'd probably be dead with 9g in your blood.](screenshots/watch_screenshot_warning.jpg)
 
 ![App Icon in the Menu](screenshots/menu.png) ![How the app is going to look like](screenshots/animated_caffeine.gif)
+
+# Download
+You can download it on the Pebble App Store [here](https://apps.getpebble.com/applications/54a6f1fc4517d0f37c0000a8).
