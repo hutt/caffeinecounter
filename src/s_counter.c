@@ -17,7 +17,7 @@ static TextLayer *s_info_layer;
 
 static int halflife=300;
 static int caff_time0=1397412233;
-static int num_caffeine=0;
+static int num_caffeine;
 
 static time_t last_intake;
 
@@ -171,7 +171,8 @@ static void initialise_ui(void) {
   s_info_layer = text_layer_create(GRect(3, 133, 136, 15));
   text_layer_set_background_color(s_info_layer, GColorClear);
   text_layer_set_text_color(s_info_layer, GColorWhite);
-  text_layer_set_text(s_info_layer, "00:00 until < 5mg");
+  // text_layer_set_text(s_info_layer, "00:00 until < 5mg");
+  text_layer_set_text(s_info_layer, "");
   text_layer_set_text_alignment(s_info_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_info_layer);
     
