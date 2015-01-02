@@ -7,7 +7,7 @@
 #define NUM_CAFFEINE_DEFAULT 0
 // time of last caffeine intake  
 #define DATE_LAST_INTAKE_PKEY 1
-
+    
 static Window *s_window;
 static GFont s_res_bitham_30_black;
 static GFont s_res_gothic_28_bold;
@@ -149,7 +149,28 @@ static void initialise_ui(void) {
   s_heading = text_layer_create(GRect(0, 9, 143, 37));
   text_layer_set_background_color(s_heading, GColorClear);
   text_layer_set_text_color(s_heading, GColorWhite);
-  text_layer_set_text(s_heading, "Caffeine");
+
+  //Translation of the app name
+    //get system locale
+    char *sys_locale = setlocale(LC_ALL, "");
+    
+    if (strcmp("fr_FR", sys_locale) == 0) {
+        //French
+        text_layer_set_text(s_heading, "caféine");
+    } else if (strcmp("de_DE", sys_locale) == 0) {
+        //German
+        text_layer_set_text(s_heading, "Koffein");
+    } else if (strcmp("es_ES", sys_locale) == 0) {
+        //Spanish
+        text_layer_set_text(s_heading, "cafeína");  
+    } else if (strcmp("zh_CN", sys_locale) == 0) {
+        //Simplified Chinese
+        text_layer_set_text(s_heading, "咖啡因");  
+    } else {
+        //English
+        text_layer_set_text(s_heading, "Caffeine");
+    }
+    
   text_layer_set_text_alignment(s_heading, GTextAlignmentCenter);
   text_layer_set_font(s_heading, s_res_bitham_30_black);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_heading);
