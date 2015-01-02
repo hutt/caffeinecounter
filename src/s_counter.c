@@ -2,7 +2,7 @@
 #include "s_counter.h"
 
 // Persistent Keys
-#define NUM_CAFFEINE_PKEY 1
+#define NUM_CAFFEINE_PKEY 100
 // Default
 #define NUM_CAFFEINE_DEFAULT 0
 // time of last caffeine intake  
@@ -18,12 +18,6 @@ static TextLayer *s_info_layer;
 static int halflife=300;
 static int caff_time0=1397412233;
 static int num_caffeine;
-
-static time_t last_intake;
-
-long get_elapsed_time(void){
-    return ((time(NULL)-last_intake)/(60*60));
-}
 
 float caffeine() {
     time_t now1 = time(NULL);
@@ -65,7 +59,7 @@ void update_screen(void){
 }
 
 static void update_intake(void){
-    last_intake = time(NULL);
+    caff_time0 = time(NULL);
 }
 
 static void long_select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -131,14 +125,16 @@ static void click_config_provider(void *context) {
 void init (void){
     //Update every minute
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+    //Read caffeine count
     num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
-    last_intake = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : time(NULL);
+    //Read last caffeine intake
+    caff_time0 = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : time(NULL);
 }
 
 void end(void){
     //Things to save before exiting app
     persist_write_int(NUM_CAFFEINE_PKEY, num_caffeine);
-    persist_write_int(DATE_LAST_INTAKE_PKEY, last_intake);
+    persist_write_int(DATE_LAST_INTAKE_PKEY, caff_time0);
     tick_timer_service_unsubscribe();
 }
 
