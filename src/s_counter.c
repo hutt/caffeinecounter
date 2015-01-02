@@ -156,13 +156,13 @@ static void initialise_ui(void) {
     //switch string output
     if (strcmp("fr_FR", sys_locale) == 0) {
         //French
-        text_layer_set_text(s_heading, "caféine");
+        text_layer_set_text(s_heading, "Caféine");
     } else if (strcmp("de_DE", sys_locale) == 0) {
         //German
         text_layer_set_text(s_heading, "Koffein");
     } else if (strcmp("es_ES", sys_locale) == 0) {
         //Spanish
-        text_layer_set_text(s_heading, "cafeína");  
+        text_layer_set_text(s_heading, "Cafeína");  
     } else if (strcmp("zh_CN", sys_locale) == 0) {
         //Simplified Chinese
         text_layer_set_text(s_heading, "咖啡因");  
