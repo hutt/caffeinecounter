@@ -153,7 +153,7 @@ static void initialise_ui(void) {
   //Translation of the app name
     //get system locale
     char *sys_locale = setlocale(LC_ALL, "");
-    
+    //switch string output
     if (strcmp("fr_FR", sys_locale) == 0) {
         //French
         text_layer_set_text(s_heading, "caféine");

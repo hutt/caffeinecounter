@@ -54,7 +54,7 @@
     "shortName": "Caffeine",
     "uuid": "741ace1f-4f23-4982-b72f-f89e56a240ee",
     "versionCode": 1,
-    "versionLabel": "0.3",
+    "versionLabel": "0.4",
     "watchapp": {
         "watchface": false
     }
