@@ -126,7 +126,7 @@ void init (void){
     //Update every minute
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
     //Read caffeine count
-    num_caffeine = persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT;
+    num_caffeine = 1 + (persist_exists(NUM_CAFFEINE_PKEY) ? persist_read_int(NUM_CAFFEINE_PKEY) : NUM_CAFFEINE_DEFAULT);
     //Read last caffeine intake
     caff_time0 = persist_exists(DATE_LAST_INTAKE_PKEY) ? persist_read_int(DATE_LAST_INTAKE_PKEY) : time(NULL);
 }
