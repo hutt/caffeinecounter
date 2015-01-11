@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "s_counter.h"
-
+//#include "math.h"
+    
 // Persistent Keys
 #define NUM_CAFFEINE_PKEY 100
 // Default
