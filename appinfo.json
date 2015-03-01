@@ -3,58 +3,63 @@
     "capabilities": [
         ""
     ],
-    "companyName": "Jannis Hutt",
+    "companyName": "pebble@jh0.eu",
     "longName": "Caffeine Counter",
     "projectType": "native",
     "resources": {
         "media": [
             {
-                "file": "images/minus_transparent.png",
-                "name": "minus_transparent",
-                "type": "png-trans"
+                "file": "images/settings_w.png",
+                "name": "ICON_W_SETTINGS",
+                "type": "png"
             },
             {
-                "file": "images/plus_transparent.png",
-                "name": "plus_transparent",
-                "type": "png-trans"
+                "file": "images/minus_w.png",
+                "name": "ICON_W_MINUS",
+                "type": "png"
             },
             {
-                "file": "images/settings_transparent.png",
-                "name": "settings_transparent",
-                "type": "png-trans"
+                "file": "images/plus_w.png",
+                "name": "ICON_W_PLUS",
+                "type": "png"
+            },
+            {
+                "file": "images/caffeine_white.png",
+                "menuIcon": true,
+                "name": "ICON_APP_CAFFEINE",
+                "type": "png"
             },
             {
                 "file": "images/minus.png",
-                "name": "minus",
+                "name": "ICON_MINUS",
                 "type": "png"
             },
             {
                 "file": "images/plus.png",
-                "name": "plus",
+                "name": "ICON_PLUS",
                 "type": "png"
             },
             {
                 "file": "images/settings.png",
-                "name": "settings",
+                "name": "ICON_SETTINGS",
                 "type": "png"
             },
             {
-                "file": "images/caffeine_black_nt.png",
-                "name": "caffeine_black_nt",
-                "type": "png"
-            },
-            {
-                "file": "images/caffeine_white_nt.png",
-                "menuIcon": true,
-                "name": "caffeine_white_nt",
-                "type": "png"
+                "file": "images/caffeine_white_transparent.png",
+                "name": "ICON_CAFFEINE_APP_T",
+                "type": "png-trans"
             }
         ]
     },
+    "sdkVersion": "3",
     "shortName": "Caffeine",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "741ace1f-4f23-4982-b72f-f89e56a240ee",
     "versionCode": 1,
-    "versionLabel": "0.4",
+    "versionLabel": "0.5",
     "watchapp": {
         "watchface": false
     }
