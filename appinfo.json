@@ -4,62 +4,16 @@
         ""
     ],
     "companyName": "pebble@jh0.eu",
-    "longName": "Caffeine Counter",
+    "longName": "Caffeine Counter v2",
     "projectType": "native",
     "resources": {
-        "media": [
-            {
-                "file": "images/settings_w.png",
-                "name": "ICON_W_SETTINGS",
-                "type": "png"
-            },
-            {
-                "file": "images/minus_w.png",
-                "name": "ICON_W_MINUS",
-                "type": "png"
-            },
-            {
-                "file": "images/plus_w.png",
-                "name": "ICON_W_PLUS",
-                "type": "png"
-            },
-            {
-                "file": "images/caffeine_white.png",
-                "menuIcon": true,
-                "name": "ICON_APP_CAFFEINE",
-                "type": "png"
-            },
-            {
-                "file": "images/minus.png",
-                "name": "ICON_MINUS",
-                "type": "png"
-            },
-            {
-                "file": "images/plus.png",
-                "name": "ICON_PLUS",
-                "type": "png"
-            },
-            {
-                "file": "images/settings.png",
-                "name": "ICON_SETTINGS",
-                "type": "png"
-            },
-            {
-                "file": "images/caffeine_white_transparent.png",
-                "name": "ICON_CAFFEINE_APP_T",
-                "type": "png-trans"
-            }
-        ]
+        "media": []
     },
     "sdkVersion": "3",
-    "shortName": "Caffeine",
-    "targetPlatforms": [
-        "aplite",
-        "basalt"
-    ],
-    "uuid": "741ace1f-4f23-4982-b72f-f89e56a240ee",
+    "shortName": "Caffeine Counter v2",
+    "uuid": "53873731-7395-44ce-8e5a-d79559d79c1c",
     "versionCode": 1,
-    "versionLabel": "0.5",
+    "versionLabel": "1.0",
     "watchapp": {
         "watchface": false
     }
