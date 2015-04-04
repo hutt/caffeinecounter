@@ -34,13 +34,23 @@ static void tick_handler(struct tm *t, TimeUnits unitschanged){
 
 static void initialise_ui(void) {
   s_window = window_create();
+
+  // define differences between platforms
+#ifdef PBL_COLOR //Basalt
+  //Background color
+  GColor backgroundColor = GColorWindsorTan;
+
+  //Text
+  GColor textColor = GColorBlack;
+#else //Aplite
+  //Background color
+  static GColor backgroundColor = GColorBlack;
   
-#ifdef PBL_COLOR
-  window_set_background_color(s_window, GColorWindsorTan);
-#else
-  window_set_background_color(s_window, GColorBlack);
+  //Text
+  static GColor textColor = GColorWhite;
 #endif
   
+  window_set_background_color(s_window, backgroundColor);
   window_set_fullscreen(s_window, false);
   
   // Click config provider
@@ -51,7 +61,7 @@ static void initialise_ui(void) {
   // s_heading
   s_heading = text_layer_create(GRect(0, 0, 133, 37));
   text_layer_set_background_color(s_heading, GColorClear);
-  text_layer_set_text_color(s_heading, GColorWhite);
+  text_layer_set_text_color(s_heading, textColor);
   text_layer_set_text(s_heading, "Caffeine");
   text_layer_set_font(s_heading, s_res_bitham_30_black);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_heading);
@@ -96,7 +106,7 @@ static void update_counter(void) {
 
 static void handle_window_unload(Window* window) {
   destroy_ui();
-  tick_timer_service_unsubscribe(tick_handler);
+  tick_timer_service_unsubscribe();
 }
 
 void show_counter(void) {
