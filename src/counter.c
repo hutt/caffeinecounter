@@ -28,6 +28,10 @@ static void click_config_provider(void *context){
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
+static void tick_handler(struct tm *t, TimeUnits unitschanged){
+  //update_counter();
+}
+
 static void initialise_ui(void) {
   s_window = window_create();
   
@@ -68,6 +72,9 @@ static void initialise_ui(void) {
   text_layer_set_text(s_note, "approximate amount of caffeine");
   text_layer_set_text_alignment(s_note, GTextAlignmentRight);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_note);
+  
+  // Where's the time?
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 }
 
 static void destroy_ui(void) {
@@ -89,6 +96,7 @@ static void update_counter(void) {
 
 static void handle_window_unload(Window* window) {
   destroy_ui();
+  tick_timer_service_unsubscribe(tick_handler);
 }
 
 void show_counter(void) {
