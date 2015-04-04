@@ -3,17 +3,37 @@
     "capabilities": [
         ""
     ],
-    "companyName": "pebble@jh0.eu",
-    "longName": "Caffeine Counter v2",
+    "companyName": "Jannis Hutt",
+    "longName": "Caffeine Counter",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/settings.png",
+                "name": "IMAGE_SETTINGS_WHITE",
+                "type": "png"
+            },
+            {
+                "file": "images/minus.png",
+                "name": "IMAGE_MINUS_WHITE",
+                "type": "png"
+            },
+            {
+                "file": "images/plus.png",
+                "name": "IMAGE_PLUS_WHITE",
+                "type": "png"
+            }
+        ]
     },
     "sdkVersion": "3",
-    "shortName": "Caffeine Counter v2",
-    "uuid": "53873731-7395-44ce-8e5a-d79559d79c1c",
+    "shortName": "Caffeine",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "741ace1f-4f23-4982-b72f-f89e56a240ee",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "0.5",
     "watchapp": {
         "watchface": false
     }
