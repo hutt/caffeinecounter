@@ -10,15 +10,15 @@ static TextLayer *s_note;
 
 
 // CLICK HANDLERS
-static void up_click_handler(ClickRecognizerRef, void *context){
+static void up_click_handler(ClickRecognizerRef recognizer, void *context){
   
 }
 
-static void select_click_handler(ClickRecognizerRef, void *context){
+static void select_click_handler(ClickRecognizerRef recognizer, void *context){
   
 }
 
-static void down_click_handler(ClickRecognizerRef, void *context){
+static void down_click_handler(ClickRecognizerRef recognizer, void *context){
   
 }
 
