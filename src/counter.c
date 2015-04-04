@@ -7,7 +7,10 @@ static GFont s_res_gothic_28_bold;
 static TextLayer *s_heading;
 static TextLayer *s_amount;
 static TextLayer *s_note;
-
+static ActionBarLayer *s_actionbar;
+static GBitmap *action_icon_plus;
+static GBitmap *action_icon_settings;
+static GBitmap *action_icon_minus;
 
 // CLICK HANDLERS
 static void up_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -28,6 +31,20 @@ static void click_config_provider(void *context){
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
+/*
+static void update_display(void) {
+  
+}
+
+static void update_counter(void) {
+  
+  int timeElapsed = getTimeElapsed(now);
+  double amount   = getCaffeineAmount(timeElapsed);
+  update_display();
+}
+
+*/
+
 static void tick_handler(struct tm *t, TimeUnits unitschanged){
   //update_counter();
 }
@@ -36,52 +53,71 @@ static void initialise_ui(void) {
   s_window = window_create();
 
   // define differences between platforms
-#ifdef PBL_COLOR //Basalt
-  //Background color
-  GColor backgroundColor = GColorWindsorTan;
+  #ifdef PBL_COLOR //Basalt
+    //Background color
+    GColor backgroundColor = GColorWindsorTan;
+  
+    //Text
+    GColor textColor = GColorWhite;
+  
+    //ActionBar
+    GColor actionbarColor = GColorBlack;
+  #else //Aplite
+    //Background color
+    GColor backgroundColor = GColorBlack;
+    
+    //Text
+    GColor textColor = GColorWhite;
+  
+    //Actionbar
+    GColor actionbarColor = GColorBlack;
+  #endif
 
-  //Text
-  GColor textColor = GColorBlack;
-#else //Aplite
-  //Background color
-  static GColor backgroundColor = GColorBlack;
-  
-  //Text
-  static GColor textColor = GColorWhite;
-#endif
-  
   window_set_background_color(s_window, backgroundColor);
   window_set_fullscreen(s_window, false);
-  
-  // Click config provider
-  window_set_click_config_provider(s_window, click_config_provider);
   
   s_res_bitham_30_black = fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK);
   s_res_gothic_28_bold = fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD);
   // s_heading
-  s_heading = text_layer_create(GRect(0, 0, 133, 37));
+  s_heading = text_layer_create(GRect(2, 0, 133, 37));
   text_layer_set_background_color(s_heading, GColorClear);
   text_layer_set_text_color(s_heading, textColor);
   text_layer_set_text(s_heading, "Caffeine");
-  text_layer_set_font(s_heading, s_res_bitham_30_black);
+  text_layer_set_font(s_heading, s_res_gothic_28_bold);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_heading);
   
   // s_amount
-  s_amount = text_layer_create(GRect(7, 37, 113, 33));
+  s_amount = text_layer_create(GRect(2, 40, 113, 33));
   text_layer_set_background_color(s_amount, GColorClear);
-  text_layer_set_text_color(s_amount, GColorWhite);
+  text_layer_set_text_color(s_amount, textColor);
   text_layer_set_text(s_amount, "0000mg");
-  text_layer_set_text_alignment(s_amount, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_amount, GTextAlignmentLeft);
   text_layer_set_font(s_amount, s_res_gothic_28_bold);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_amount);
   
   // s_note
-  s_note = text_layer_create(GRect(7, 111, 114, 33));
+  s_note = text_layer_create(GRect(2, 111, 114, 33));
   text_layer_set_background_color(s_note, GColorClear);
-  text_layer_set_text_color(s_note, GColorWhite);
+  text_layer_set_text_color(s_note, textColor);
   text_layer_set_text(s_note, "approximate amount of caffeine");
-  text_layer_set_text_alignment(s_note, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_note, GTextAlignmentLeft);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_note);
+  
+  // s_actionbar
+  
+  // Icons
+  action_icon_plus = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_PLUS_WHITE);
+  action_icon_settings = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SETTINGS_WHITE);
+  action_icon_minus = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MINUS_WHITE);
+  
+  s_actionbar = action_bar_layer_create();
+  action_bar_layer_add_to_window(s_actionbar, s_window);
+  action_bar_layer_set_click_config_provider(s_actionbar, click_config_provider);
+  
+  action_bar_layer_set_background_color(s_actionbar, actionbarColor);
+  action_bar_layer_set_icon(s_actionbar, BUTTON_ID_UP, action_icon_plus);
+  action_bar_layer_set_icon(s_actionbar, BUTTON_ID_SELECT, action_icon_settings);
+  action_bar_layer_set_icon(s_actionbar, BUTTON_ID_DOWN, action_icon_minus);
   
   // Where's the time?
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
@@ -92,17 +128,12 @@ static void destroy_ui(void) {
   text_layer_destroy(s_heading);
   text_layer_destroy(s_amount);
   text_layer_destroy(s_note);
+
+  gbitmap_destroy(action_icon_plus);
+  gbitmap_destroy(action_icon_settings);
+  gbitmap_destroy(action_icon_minus);
+  action_bar_layer_destroy(s_actionbar);
 }
-
-
-/*
-static void update_counter(void) {
-  
-  int timeElapsed = getTimeElapsed(now);
-  double amount   = getCaffeineAmount(timeElapsed);
-}
-
-*/
 
 static void handle_window_unload(Window* window) {
   destroy_ui();
