@@ -9,13 +9,13 @@
     "resources": {
         "media": [
             {
-                "file": "images/settings.png",
-                "name": "IMAGE_SETTINGS_WHITE",
+                "file": "images/minus.png",
+                "name": "IMAGE_MINUS_WHITE",
                 "type": "png"
             },
             {
-                "file": "images/minus.png",
-                "name": "IMAGE_MINUS_WHITE",
+                "file": "images/settings.png",
+                "name": "IMAGE_SETTINGS_WHITE",
                 "type": "png"
             },
             {

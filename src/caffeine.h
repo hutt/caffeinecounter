@@ -1,0 +1,1 @@
+static double caffeine(double amount, time_t *time);
